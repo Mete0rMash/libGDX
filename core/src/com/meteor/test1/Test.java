@@ -26,6 +26,7 @@ public class Test extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private Rectangle bucket;
 	private Array<Rectangle> raindrops;
+	private float raindropSpeed;
 	private long lastDropTime;
 
 	@Override
@@ -56,6 +57,7 @@ public class Test extends ApplicationAdapter {
 
 		// create the raindrops array and spawn the first raindrop
 		raindrops = new Array<Rectangle>();
+		raindropSpeed = 200;
 		spawnRaindrop();
 	}
 
@@ -106,7 +108,9 @@ public class Test extends ApplicationAdapter {
 
 		// make sure the bucket stays within the screen bounds
 		if(bucket.x < 0) bucket.x = 0;
-		if(bucket.x > 800 - 64) bucket.x = 800 - 64;
+		if(bucket.x > 650 - 64) bucket.x = 650 - 64;
+		if(bucket.y < 0) bucket.y = 0;
+		if(bucket.y > 960 - 64) bucket.y = 960 - 64;
 
 		// check if we need to create a new raindrop
 		if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
@@ -116,10 +120,11 @@ public class Test extends ApplicationAdapter {
 		// a sound effect as well.
 		for (Iterator<Rectangle> iter = raindrops.iterator(); iter.hasNext(); ) {
 			Rectangle raindrop = iter.next();
-			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
+			raindrop.y -= raindropSpeed * Gdx.graphics.getDeltaTime();
 			if(raindrop.y + 64 < 0) iter.remove();
 			if(raindrop.overlaps(bucket)) {
 				dropSound.play();
+				raindropSpeed += 15;
 				iter.remove();
 			}
 		}
