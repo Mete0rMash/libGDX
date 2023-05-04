@@ -20,6 +20,7 @@ import java.util.Iterator;
 public class Test extends ApplicationAdapter {
 	private Texture dropImage;
 	private Texture bucketImage;
+	private Texture background;
 	private Sound dropSound;
 	private Music rainMusic;
 	private SpriteBatch batch;
@@ -34,6 +35,7 @@ public class Test extends ApplicationAdapter {
 		// load the images for the droplet and the bucket, 64x64 pixels each
 		dropImage = new Texture(Gdx.files.internal("droplet.png"));
 		bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+		background = new Texture(Gdx.files.internal("bg.jpg"));
 
 		// load the drop sound effect and the rain background "music"
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -89,6 +91,7 @@ public class Test extends ApplicationAdapter {
 		// begin a new batch and draw the bucket and
 		// all drops
 		batch.begin();
+		batch.draw(background,0,0);
 		batch.draw(bucketImage, bucket.x, bucket.y);
 		for(Rectangle raindrop: raindrops) {
 			batch.draw(dropImage, raindrop.x, raindrop.y);
