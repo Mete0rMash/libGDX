@@ -121,10 +121,15 @@ public class Test extends ApplicationAdapter {
 		for (Iterator<Rectangle> iter = raindrops.iterator(); iter.hasNext(); ) {
 			Rectangle raindrop = iter.next();
 			raindrop.y -= raindropSpeed * Gdx.graphics.getDeltaTime();
-			if(raindrop.y + 64 < 0) iter.remove();
+			if(raindrop.y + 64 < 0) {
+				raindropSpeed = 200;
+				lastDropTime = TimeUtils.nanoTime();
+				iter.remove();
+			}
 			if(raindrop.overlaps(bucket)) {
 				dropSound.play();
 				raindropSpeed += 15;
+				lastDropTime /= 1.005;
 				iter.remove();
 			}
 		}
